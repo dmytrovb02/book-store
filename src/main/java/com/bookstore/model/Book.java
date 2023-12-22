@@ -19,7 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "books", schema = "book_store")
+@Table(name = "books")
 public class Book {
 
     @Id

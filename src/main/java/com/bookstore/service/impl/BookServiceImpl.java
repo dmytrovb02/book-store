@@ -39,7 +39,8 @@ public class BookServiceImpl implements BookService {
     public BookDto findById(Long id) {
         Book book = getBookById(id);
         if (isDeleted(book)) {
-            throw new BookNotFoundException(String.format(ExceptionMessage.BOOK_IS_DELETED.getMessage(), id));
+            throw new BookNotFoundException(
+                    String.format(ExceptionMessage.BOOK_IS_DELETED.getMessage(), id));
         }
         return bookMapper.mapToDto(getBookById(id));
     }

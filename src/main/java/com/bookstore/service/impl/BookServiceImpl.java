@@ -1,9 +1,8 @@
 package com.bookstore.service.impl;
 
-import com.bookstore.dto.BookDto;
 import com.bookstore.dto.BookRequestDto;
+import com.bookstore.dto.BookResponceDto;
 import com.bookstore.exception.BookNotFoundException;
-import com.bookstore.exception.message.ExceptionMessage;
 import com.bookstore.mapper.BookMapper;
 import com.bookstore.model.Book;
 import com.bookstore.model.BookStatus;
@@ -21,14 +20,15 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public void create(BookRequestDto bookRequestDto) {
+    public BookResponceDto save(BookRequestDto bookRequestDto) {
         Book book = bookMapper.mapToEntity(bookRequestDto);
         book.setStatus(BookStatus.ACTIVE);
         bookRepository.save(book);
+        return bookMapper.mapToDto(book);
     }
 
     @Override
-    public List<BookDto> findAll() {
+    public List<BookResponceDto> findAll() {
         return bookRepository.findAll().stream()
                 .filter(book -> !isDeleted(book))
                 .map(bookMapper::mapToDto)
@@ -36,20 +36,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto findById(Long id) {
+    public BookResponceDto findById(Long id) {
         Book book = getBookById(id);
         if (isDeleted(book)) {
             throw new BookNotFoundException(
-                    String.format(ExceptionMessage.BOOK_IS_DELETED.getMessage(), id));
+                    String.format("Book with id: %s was deleted", id));
         }
         return bookMapper.mapToDto(getBookById(id));
     }
 
     @Override
-    public void update(Long id, BookRequestDto bookRequestDto) {
+    public BookResponceDto update(Long id, BookRequestDto bookRequestDto) {
         Book book = getBookById(id);
         bookMapper.updateBookFromDto(bookRequestDto, book);
         bookRepository.save(book);
+        return bookMapper.mapToDto(book);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class BookServiceImpl implements BookService {
     private Book getBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(
                 () -> new BookNotFoundException(
-                        String.format(ExceptionMessage.BOOK_NOT_FOUND.getMessage(), id)));
+                        String.format("Book with id: %s not found", id)));
     }
 
     private Boolean isDeleted(Book book) {

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookDto {
+public class BookResponceDto {
 
     private Long id;
     private String title;

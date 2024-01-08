@@ -8,6 +8,7 @@ import com.bookstore.model.Book;
 import com.bookstore.repository.BookRepository;
 import com.bookstore.service.BookService;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +34,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponseDto findById(Long id) {
-        return bookMapper.mapToDto(getBookById(id));
+    public Optional<BookResponseDto> findById(Long id) {
+        return bookRepository.findById(id)
+                .map(bookMapper::mapToDto);
     }
 
     @Override

@@ -1,9 +1,8 @@
 package com.bookstore.service.impl;
 
-import com.bookstore.dto.BookDto;
 import com.bookstore.dto.BookRequestDto;
+import com.bookstore.dto.BookResponseDto;
 import com.bookstore.exception.EntityNotFoundException;
-import com.bookstore.exception.message.ExceptionMessage;
 import com.bookstore.mapper.BookMapper;
 import com.bookstore.model.Book;
 import com.bookstore.repository.BookRepository;
@@ -20,22 +19,23 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public void save(BookRequestDto bookRequestDto) {
-        bookRepository.save(bookMapper.mapToEntity(bookRequestDto));
+    public BookResponseDto save(BookRequestDto bookRequestDto) {
+        Book book = bookMapper.mapToEntity(bookRequestDto);
+        bookRepository.save(book);
+        return bookMapper.mapToDto(book);
     }
 
     @Override
-    public List<BookDto> findAll() {
+    public List<BookResponseDto> findAll() {
         return bookRepository.findAll().stream()
                 .map(bookMapper::mapToDto)
                 .toList();
     }
 
     @Override
-    public BookDto findById(Long id) {
+    public BookResponseDto findById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(
-                        String.format(ExceptionMessage.BOOK_NOT_FOUND.getMessage(), id)));
+                () -> new EntityNotFoundException(String.format("Book with id: %s not found", id)));
         return bookMapper.mapToDto(book);
     }
 }

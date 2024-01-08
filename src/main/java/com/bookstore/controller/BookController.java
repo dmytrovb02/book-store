@@ -1,7 +1,7 @@
 package com.bookstore.controller;
 
 import com.bookstore.dto.BookRequestDto;
-import com.bookstore.dto.BookResponceDto;
+import com.bookstore.dto.BookResponseDto;
 import com.bookstore.service.impl.BookServiceImpl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,23 +24,23 @@ public class BookController {
     private final BookServiceImpl bookService;
 
     @GetMapping
-    public List<BookResponceDto> getAll() {
+    public List<BookResponseDto> getAll() {
         return bookService.findAll();
     }
 
     @GetMapping("/{id}")
-    public BookResponceDto getBookById(@PathVariable Long id) {
+    public BookResponseDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookResponceDto createBook(@RequestBody BookRequestDto bookRequestDto) {
-        return bookService.save(bookRequestDto);
+    public BookResponseDto createBook(@RequestBody BookRequestDto bookRequestDto) {
+        return bookService.create(bookRequestDto);
     }
 
     @PutMapping("/{id}")
-    public BookResponceDto updateBook(@PathVariable Long id,
+    public BookResponseDto updateBook(@PathVariable Long id,
                            @RequestBody BookRequestDto bookRequestDto) {
         return bookService.update(id, bookRequestDto);
     }

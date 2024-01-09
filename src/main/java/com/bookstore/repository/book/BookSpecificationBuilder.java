@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
-
     private final SpecificationProviderManager<Book> specificationProviderManager;
 
     @Override

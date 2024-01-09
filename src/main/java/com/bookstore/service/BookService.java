@@ -2,9 +2,8 @@ package com.bookstore.service;
 
 import com.bookstore.dto.BookRequestDto;
 import com.bookstore.dto.BookResponseDto;
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface BookService {
 

@@ -3,7 +3,6 @@ package com.bookstore.service;
 import com.bookstore.dto.BookRequestDto;
 import com.bookstore.dto.BookResponseDto;
 import java.util.List;
-import java.util.Optional;
 
 public interface BookService {
 
@@ -11,7 +10,7 @@ public interface BookService {
 
     List<BookResponseDto> findAll();
 
-    Optional<BookResponseDto> findById(Long id);
+    BookResponseDto findById(Long id);
 
     BookResponseDto update(Long id, BookRequestDto bookRequestDto);
 

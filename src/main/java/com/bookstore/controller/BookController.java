@@ -4,7 +4,6 @@ import com.bookstore.dto.BookRequestDto;
 import com.bookstore.dto.BookResponseDto;
 import com.bookstore.service.impl.BookServiceImpl;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public Optional<BookResponseDto> getBookById(@PathVariable Long id) {
+    public BookResponseDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 

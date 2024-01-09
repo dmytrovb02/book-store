@@ -19,7 +19,7 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public BookResponseDto save(BookRequestDto bookRequestDto) {
+    public BookResponseDto create(BookRequestDto bookRequestDto) {
         Book book = bookMapper.mapToEntity(bookRequestDto);
         bookRepository.save(book);
         return bookMapper.mapToDto(book);
@@ -37,6 +37,26 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findById(id)
                 .map(bookMapper::mapToDto)
                 .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Book with id: %s not found", id)));
+
+    }
+
+    @Override
+    public BookResponseDto update(Long id, BookRequestDto bookRequestDto) {
+        Book book = getBookById(id);
+        bookMapper.updateBookFromDto(bookRequestDto, book);
+        bookRepository.save(book);
+        return bookMapper.mapToDto(book);
+    }
+
+    @Override
+    public void delete(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    private Book getBookById(Long id) {
+        return bookRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(
                         String.format("Book with id: %s not found", id)));
     }
 }

@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface BookService {
 
-    BookResponseDto save(BookRequestDto bookRequestDto);
+    BookResponseDto create(BookRequestDto bookRequestDto);
 
     List<BookResponseDto> findAll();
 
     BookResponseDto findById(Long id);
+
+    BookResponseDto update(Long id, BookRequestDto bookRequestDto);
+
+    void delete(Long id);
 }

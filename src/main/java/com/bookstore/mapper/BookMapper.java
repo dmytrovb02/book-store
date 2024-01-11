@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(imports = MapperConfig.class, componentModel = "spring")
+@Mapper(imports = MapperConfig.class)
 public interface BookMapper {
 
     BookResponseDto mapToDto(Book book);

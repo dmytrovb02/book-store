@@ -2,7 +2,6 @@ package com.bookstore.controller;
 
 import com.bookstore.dto.user.UserRegistrationRequestDto;
 import com.bookstore.dto.user.UserResponseDto;
-import com.bookstore.exception.RegistrationException;
 import com.bookstore.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,7 @@ public class AuthenticationController {
     private final UserServiceImpl userService;
 
     @PostMapping("/register")
-    public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto requestDto)
-            throws RegistrationException {
+    public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto requestDto) {
         return userService.register(requestDto);
     }
 }

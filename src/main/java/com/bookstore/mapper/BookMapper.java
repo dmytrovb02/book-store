@@ -1,15 +1,15 @@
 package com.bookstore.mapper;
 
 import com.bookstore.config.MapperConfig;
-import com.bookstore.dto.BookRequestDto;
-import com.bookstore.dto.BookResponseDto;
+import com.bookstore.dto.book.BookRequestDto;
+import com.bookstore.dto.book.BookResponseDto;
 import com.bookstore.model.Book;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(imports = MapperConfig.class, componentModel = "spring")
+@Mapper(imports = MapperConfig.class)
 public interface BookMapper {
 
     BookResponseDto mapToDto(Book book);

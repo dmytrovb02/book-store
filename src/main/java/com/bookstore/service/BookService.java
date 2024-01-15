@@ -1,5 +1,6 @@
 package com.bookstore.service;
 
+import com.bookstore.dto.book.BookDtoWithoutCategoryIds;
 import com.bookstore.dto.book.BookRequestDto;
 import com.bookstore.dto.book.BookResponseDto;
 import com.bookstore.dto.book.BookSearchParametersDto;
@@ -13,6 +14,8 @@ public interface BookService {
     List<BookResponseDto> findAll(Pageable pageable);
 
     BookResponseDto findById(Long id);
+
+    List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId);
 
     BookResponseDto update(Long id, BookRequestDto bookRequestDto);
 

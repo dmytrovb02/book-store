@@ -1,5 +1,6 @@
 package com.bookstore.service.impl;
 
+import com.bookstore.dto.book.BookDtoWithoutCategoryIds;
 import com.bookstore.dto.book.BookRequestDto;
 import com.bookstore.dto.book.BookResponseDto;
 import com.bookstore.dto.book.BookSearchParametersDto;
@@ -43,6 +44,13 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Book with id: %s not found", id)));
 
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId) {
+        return bookRepository.findAllByCategoryId(categoryId).stream()
+                .map(bookMapper::toDtoWithoutCategories)
+                .toList();
     }
 
     @Override

@@ -6,14 +6,13 @@ import com.bookstore.dto.book.BookRequestDto;
 import com.bookstore.dto.book.BookResponseDto;
 import com.bookstore.model.Book;
 import com.bookstore.model.Category;
-import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(imports = MapperConfig.class, componentModel = "spring")
@@ -30,28 +29,10 @@ public interface BookMapper {
     BookDtoWithoutCategoryIds toDtoWithoutCategories(Book book);
 
     @AfterMapping
-    default void setCategoryIds(@MappingTarget BookResponseDto bookDto, Book book) {
-        if (book.getCategory() != null) {
-            bookDto.setCategoryIds(book.getCategory().stream()
-                    .map(Category::getId)
-                    .collect(Collectors.toSet()));
-        }
-    }
-
-    @Mapping(target = "category", ignore = true)
-    Book toModel(BookRequestDto requestDto);
-
-    @Named("bookById")
-    default Book bookById(Long id) {
-        return Optional.ofNullable(id)
-                .map(Book::new)
-                .orElse(null);
-    }
-
-    @AfterMapping
-    default void setCategories(@MappingTarget Book book, BookRequestDto requestDto) {
-        book.setCategory(requestDto.getCategoryIds().stream()
-                .map(Category::new)
-                .collect(Collectors.toSet()));
+    default void setCategoryIds(@MappingTarget BookRequestDto bookDto, Book book) {
+        Set<Long> categories = book.getCategory().stream()
+                .map(Category::getId)
+                .collect(Collectors.toSet());
+        bookDto.setCategoryIds(categories);
     }
 }

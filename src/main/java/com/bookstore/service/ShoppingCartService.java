@@ -7,9 +7,9 @@ import com.bookstore.dto.cart.ShoppingCartResponseDto;
 public interface ShoppingCartService {
     ShoppingCartResponseDto findCart(String email);
 
-    ShoppingCartResponseDto addItem(String email, CartItemRequestDto requestDto);
+    ShoppingCartResponseDto addItemToCart(String email, CartItemRequestDto requestDto);
 
     CartItemResponseDto updateItem(Long id, CartItemRequestDto requestDto);
 
-    void deleteById(Long id);
+    void deleteItemById(Long id);
 }

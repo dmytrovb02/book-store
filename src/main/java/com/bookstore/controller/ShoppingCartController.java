@@ -25,13 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/cart")
 @Tag(name = "Cart controller", description = "Endpoints for managing shopping cart")
-public class CartController {
+public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER')")
-    @Operation(summary = "Get a shopping cart",
-            description = "Get a user's shopping cart")
+    @Operation(summary = "Get a shopping cart", description = "Get a user's shopping cart")
     public ShoppingCartResponseDto findCart(
             Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -40,19 +39,17 @@ public class CartController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('USER')")
-    @Operation(summary = "Add an item",
-            description = "Add a new item to shopping cart")
-    public ShoppingCartResponseDto addItem(
+    @Operation(summary = "Add an item", description = "Add a new item to shopping cart")
+    public ShoppingCartResponseDto addItemToCart(
             @RequestBody CartItemRequestDto cartItemRequestDto,
             Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        return shoppingCartService.addItem(user.getEmail(), cartItemRequestDto);
+        return shoppingCartService.addItemToCart(user.getEmail(), cartItemRequestDto);
     }
 
     @PutMapping("cart-items/{id}")
     @PreAuthorize("hasAnyAuthority('USER')")
-    @Operation(summary = "Update some item",
-            description = "Update some item by id")
+    @Operation(summary = "Update some item", description = "Update some item by id")
     public CartItemResponseDto updateItem(
             @PathVariable Long id,
             @RequestBody CartItemRequestDto cartItemRequestDto) {
@@ -62,9 +59,8 @@ public class CartController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("cart-items/{id}")
     @PreAuthorize("hasAnyAuthority('USER')")
-    @Operation(summary = "Delete some item",
-            description = "Delete some item by id")
-    public void deleteById(@PathVariable Long id) {
-        shoppingCartService.deleteById(id);
+    @Operation(summary = "Delete some item", description = "Delete some item by id")
+    public void deleteItemById(@PathVariable Long id) {
+        shoppingCartService.deleteItemById(id);
     }
 }

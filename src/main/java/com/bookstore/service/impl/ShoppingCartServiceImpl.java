@@ -34,7 +34,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartResponseDto addItem(String email, CartItemRequestDto requestDto) {
+    public ShoppingCartResponseDto addItemToCart(String email, CartItemRequestDto requestDto) {
         User user = userService.getUserByEmail(email);
         ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUser(user);
 
@@ -58,7 +58,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteItemById(Long id) {
         cartItemRepository.deleteById(id);
     }
 }

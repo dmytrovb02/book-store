@@ -1,7 +1,6 @@
 package com.bookstore.controller;
 
 import com.bookstore.dto.book.BookDtoWithoutCategoryIds;
-import com.bookstore.dto.book.BookResponseDto;
 import com.bookstore.dto.category.CategoryRequestDto;
 import com.bookstore.dto.category.CategoryResponseDto;
 import com.bookstore.service.BookService;
@@ -44,20 +43,20 @@ public class CategoryController {
     @GetMapping("/{id}/books")
     @Operation(summary = "Get books by category id",
             description = "Get a list of books by category id")
-    public BookResponseDto getBooksByCategoryId(
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(
             @PathVariable(name = "id") Long id) {
-        return bookService.findById(id);
+        return bookService.findAllByCategoryId(id);
     }
 
     @PreAuthorize("hasAnyAuthority('USER')")
     @GetMapping("/{id}")
     @Operation(summary = "Get a specific category by its id",
             description = "Get a specific category by its id")
-    public List<BookDtoWithoutCategoryIds> getCategoryById(@PathVariable Long id) {
-        return bookService.findAllByCategoryId(id);
+    public CategoryResponseDto getCategoryById(@PathVariable Long id) {
+        return categoryService.getById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new category",
@@ -66,7 +65,7 @@ public class CategoryController {
         return categoryService.create(requestDto);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Update some category",
             description = "Update some category")
@@ -76,7 +75,7 @@ public class CategoryController {
         return categoryService.update(id, requestDto);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete some category",

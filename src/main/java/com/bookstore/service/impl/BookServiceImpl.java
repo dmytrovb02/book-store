@@ -31,16 +31,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookResponseDto> findAll(Pageable pageable) {
+    public List<BookDtoWithoutCategoryIds> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable).stream()
-                .map(bookMapper::mapToDto)
+                .map(bookMapper::toDtoWithoutCategories)
                 .toList();
     }
 
     @Override
-    public BookResponseDto findById(Long id) {
+    public BookDtoWithoutCategoryIds findById(Long id) {
         return bookRepository.findById(id)
-                .map(bookMapper::mapToDto)
+                .map(bookMapper::toDtoWithoutCategories)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Book with id: %s not found", id)));
 
@@ -74,7 +74,7 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
-    private Book getBookById(Long id) {
+    public Book getBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         String.format("Book with id: %s not found", id)));

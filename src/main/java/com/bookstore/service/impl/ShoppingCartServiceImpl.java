@@ -37,11 +37,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartResponseDto addItem(String email, CartItemRequestDto requestDto) {
         User user = userService.getUserByEmail(email);
         ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUser(user);
-        if (shoppingCart == null) {
-            shoppingCart = new ShoppingCart();
-            shoppingCart.setUser(user);
-            shoppingCartRepository.save(shoppingCart);
-        }
+
         CartItem cartItem = cartItemMapper.toModel(requestDto);
         cartItem.setShoppingCart(shoppingCart);
 
@@ -49,8 +45,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItem.setBook(book);
 
         cartItemRepository.save(cartItem);
-        ShoppingCart shoppingCartResponse = shoppingCartRepository.findShoppingCartByUser(user);
-        return shoppingCartMapper.toDto(shoppingCartResponse);
+        return shoppingCartMapper.toDto(shoppingCart);
     }
 
     @Override

@@ -8,7 +8,7 @@ public interface ShoppingCartService {
 
     ShoppingCartResponseDto addItem(String email, CartItemRequestDto requestDto);
 
-    ShoppingCartResponseDto updateItem(Long id, String email, CartItemRequestDto requestDto);
+    void updateItem(Long id, CartItemRequestDto requestDto);
 
     void deleteById(Long id);
 }

@@ -48,14 +48,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartResponseDto updateItem(Long id, String email,
-                                              CartItemRequestDto requestDto) {
-        User user = userService.getUserByEmail(email);
+    public void updateItem(Long id, CartItemRequestDto requestDto) {
         CartItem cartItem = cartItemRepository.findCartItemById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can`t find cart item by id " + id));
         cartItemRepository.save(cartItem);
-        ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUser(user);
-        return shoppingCartMapper.toDto(shoppingCart);
+        cartItemMapper.updateCartItemFromDto(requestDto, cartItem);
     }
 
     @Override

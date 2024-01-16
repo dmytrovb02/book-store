@@ -43,12 +43,10 @@ public class CartController {
 
     @PutMapping("cart-items/{id}")
     @PreAuthorize("hasAnyAuthority('USER')")
-    public ShoppingCartResponseDto updateItem(
+    public void updateItem(
             @PathVariable Long id,
-            @RequestBody CartItemRequestDto cartItemRequestDto,
-            Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        return shoppingCartService.updateItem(id, user.getEmail(), cartItemRequestDto);
+            @RequestBody CartItemRequestDto cartItemRequestDto) {
+        shoppingCartService.updateItem(id, cartItemRequestDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

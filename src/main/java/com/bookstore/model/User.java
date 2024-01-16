@@ -59,7 +59,7 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
 
     @JoinColumn(name = "shopping_cart_id", nullable = false)
-    @OneToOne(mappedBy = "user")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
     private ShoppingCart shoppingCart;
 
     @Override

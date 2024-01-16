@@ -6,7 +6,7 @@ import com.bookstore.model.ShoppingCart;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(imports = MapperConfig.class, componentModel = "spring")
+@Mapper(imports = MapperConfig.class, uses = CartItemMapper.class, componentModel = "spring")
 public interface ShoppingCartMapper {
 
     @Mapping(target = "userId", source = "user.id")

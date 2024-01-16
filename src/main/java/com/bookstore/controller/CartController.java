@@ -4,6 +4,8 @@ import com.bookstore.dto.shoppingcart.CartItemRequestDto;
 import com.bookstore.dto.shoppingcart.ShoppingCartResponseDto;
 import com.bookstore.model.User;
 import com.bookstore.service.ShoppingCartService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,11 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/cart")
+@Tag(name = "Cart controller", description = "Endpoints for managing shopping cart")
 public class CartController {
     private final ShoppingCartService shoppingCartService;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER')")
+    @Operation(summary = "Get a shopping cart",
+            description = "Get a user's shopping cart")
     public ShoppingCartResponseDto findCart(
             Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -34,6 +39,8 @@ public class CartController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('USER')")
+    @Operation(summary = "Add an item",
+            description = "Add a new item to shopping cart")
     public ShoppingCartResponseDto addItem(
             @RequestBody CartItemRequestDto cartItemRequestDto,
             Authentication authentication) {
@@ -43,6 +50,8 @@ public class CartController {
 
     @PutMapping("cart-items/{id}")
     @PreAuthorize("hasAnyAuthority('USER')")
+    @Operation(summary = "Update some item",
+            description = "Update some item by id")
     public void updateItem(
             @PathVariable Long id,
             @RequestBody CartItemRequestDto cartItemRequestDto) {
@@ -52,6 +61,8 @@ public class CartController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("cart-items/{id}")
     @PreAuthorize("hasAnyAuthority('USER')")
+    @Operation(summary = "Delete some item",
+            description = "Delete some item by id")
     public void deleteById(@PathVariable Long id) {
         shoppingCartService.deleteById(id);
     }

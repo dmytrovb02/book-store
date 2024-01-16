@@ -36,10 +36,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartResponseDto addItem(String email, CartItemRequestDto requestDto) {
         User user = userService.getUserByEmail(email);
         ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUser(user);
+        if (shoppingCart == null) {
+            shoppingCart = new ShoppingCart();
+            shoppingCart.setUser(user);
+            shoppingCartRepository.save(shoppingCart);
+        }
         CartItem cartItem = cartItemMapper.toModel(requestDto);
         cartItem.setShoppingCart(shoppingCart);
 
-        Book book = bookService.getBookById(cartItem.getBook().getId());
+        Book book = bookService.getBookById(requestDto.getBookId());
         cartItem.setBook(book);
 
         cartItemRepository.save(cartItem);
@@ -51,8 +56,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void updateItem(Long id, CartItemRequestDto requestDto) {
         CartItem cartItem = cartItemRepository.findCartItemById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can`t find cart item by id " + id));
-        cartItemRepository.save(cartItem);
         cartItemMapper.updateCartItemFromDto(requestDto, cartItem);
+        cartItemRepository.save(cartItem);
     }
 
     @Override

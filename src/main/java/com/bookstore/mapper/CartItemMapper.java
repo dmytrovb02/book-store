@@ -1,8 +1,8 @@
 package com.bookstore.mapper;
 
 import com.bookstore.config.MapperConfig;
-import com.bookstore.dto.shoppingcart.CartItemRequestDto;
-import com.bookstore.dto.shoppingcart.CartItemResponseDto;
+import com.bookstore.dto.cart.CartItemRequestDto;
+import com.bookstore.dto.cart.CartItemResponseDto;
 import com.bookstore.model.CartItem;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

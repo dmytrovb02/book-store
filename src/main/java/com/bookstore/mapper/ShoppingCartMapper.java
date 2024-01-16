@@ -1,7 +1,7 @@
 package com.bookstore.mapper;
 
 import com.bookstore.config.MapperConfig;
-import com.bookstore.dto.shoppingcart.ShoppingCartResponseDto;
+import com.bookstore.dto.cart.ShoppingCartResponseDto;
 import com.bookstore.model.ShoppingCart;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

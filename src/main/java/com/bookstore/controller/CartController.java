@@ -1,7 +1,8 @@
 package com.bookstore.controller;
 
-import com.bookstore.dto.shoppingcart.CartItemRequestDto;
-import com.bookstore.dto.shoppingcart.ShoppingCartResponseDto;
+import com.bookstore.dto.cart.CartItemRequestDto;
+import com.bookstore.dto.cart.CartItemResponseDto;
+import com.bookstore.dto.cart.ShoppingCartResponseDto;
 import com.bookstore.model.User;
 import com.bookstore.service.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,10 +53,10 @@ public class CartController {
     @PreAuthorize("hasAnyAuthority('USER')")
     @Operation(summary = "Update some item",
             description = "Update some item by id")
-    public void updateItem(
+    public CartItemResponseDto updateItem(
             @PathVariable Long id,
             @RequestBody CartItemRequestDto cartItemRequestDto) {
-        shoppingCartService.updateItem(id, cartItemRequestDto);
+        return shoppingCartService.updateItem(id, cartItemRequestDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/cart")
-@Tag(name = "Cart controller", description = "Endpoints for managing shopping cart")
+@Tag(name = "Cart", description = "Endpoints for managing shopping cart")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 

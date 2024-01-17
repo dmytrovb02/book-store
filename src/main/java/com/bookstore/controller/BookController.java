@@ -1,9 +1,9 @@
 package com.bookstore.controller;
 
+import com.bookstore.dto.book.BookDtoWithoutCategoryIds;
 import com.bookstore.dto.book.BookRequestDto;
 import com.bookstore.dto.book.BookResponseDto;
 import com.bookstore.dto.book.BookSearchParametersDto;
-import com.bookstore.model.User;
 import com.bookstore.service.impl.BookServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,8 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,23 +33,21 @@ public class BookController {
     private final BookServiceImpl bookService;
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyAuthority('USER')")
     @Operation(summary = "Get all books", description = "Get a list of all available books")
-    public List<BookResponseDto> getAll(Pageable pageable) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
+    public List<BookDtoWithoutCategoryIds> getAll(Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyAuthority('USER')")
     @Operation(summary = "Get a book by id", description = "Get a book by id")
-    public BookResponseDto getBookById(@PathVariable Long id) {
+    public BookDtoWithoutCategoryIds getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Create a book", description = "Create a new book")
     public ResponseEntity<BookResponseDto> createBook(
             @RequestBody @Valid BookRequestDto bookRequestDto) {
@@ -60,7 +56,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Update a book by id", description = "Update a book by id")
     public BookResponseDto updateBook(@PathVariable Long id,
                            @RequestBody @Valid BookRequestDto bookRequestDto) {
@@ -68,14 +64,14 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Delete a book by id", description = "Delete a book by id")
     public void deleteBook(@PathVariable Long id) {
         bookService.delete(id);
     }
 
     @GetMapping("/search")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyAuthority('USER')")
     @Operation(summary = "Search books", description = "Search books by title and author")
     public List<BookResponseDto> searchBooks(BookSearchParametersDto searchParameters) {
         return bookService.search(searchParameters);

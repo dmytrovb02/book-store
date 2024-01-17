@@ -11,9 +11,9 @@ public interface BookService {
 
     BookResponseDto create(BookRequestDto bookRequestDto);
 
-    List<BookResponseDto> findAll(Pageable pageable);
+    List<BookDtoWithoutCategoryIds> findAll(Pageable pageable);
 
-    BookResponseDto findById(Long id);
+    BookDtoWithoutCategoryIds findById(Long id);
 
     List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId);
 
